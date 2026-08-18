@@ -28,9 +28,16 @@ def main(page: ft.Page):
     createDatabase()
     #Criando Titulo e alinhamento da página inteira
     page.title = "Meu Primeiro App"
+
+
     page.vertical_alignment = ft.MainAxisAlignment.START
     page.horizontal_alignment = ft.CrossAxisAlignment.START
     texto = ft.Text(value="Bem-vindo a Nesvt!", size=30 )
+    page.bgcolor = "black"
+    page.window.width = 390
+    page.window.height = 844
+    page.window.resizable = False   # impede arrastar e mudar o tamanho
+    page.window.maximizable = False #impede maximizar a tela
 
     input_user =ft.TextField(label="Nome de Usuário")
     input_email = ft.TextField(label="Email ")
@@ -40,19 +47,27 @@ def main(page: ft.Page):
 
 
     def cadastro_click(e):
+        page.clean()
         #Criar funcao para inserir banco de dados 
+        if not input_user.value or not input_email.value or not input_password.value:
+            print("Por favor, preencha todos os campos.")
+            return
         cursor.execute(
                 "INSERT INTO usuarios (nome,email, senha) VALUES (%s, %s,%s)",
                 (input_user.value, input_email.value,input_password.value)
             )
         conexao.commit()
-        page.clean()
-        page.add(container_login)
         print("INSERIDO")
 
 
 
     def login_click(e):
+        page.clean()
+        page.add(container_login)
+        #verifica se nao esta vazio o input
+        if not input_email.value or not input_password.value:
+            print("Por favor, preencha todos os campos.")
+            return
         cursor.execute(
                 "SELECT * FROM usuarios WHERE email = %s AND senha = %s",
                 (input_email.value, input_password.value)
@@ -76,7 +91,8 @@ def main(page: ft.Page):
                 input_user,
                 input_email,
                 input_password,
-                ft.Button("Entrar", on_click=cadastro_click)
+                ft.Button("Entrar", on_click=cadastro_click),
+                ft.TextButton("Já possui uma conta? Faça login",  on_click=login_click)
             ],
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,

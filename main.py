@@ -53,8 +53,17 @@ def main(page: ft.Page):
 
 
     def login_click(e):
-        print("aaaaaaaaaa")
-
+        cursor.execute(
+                "SELECT * FROM usuarios WHERE email = %s AND senha = %s",
+                (input_email.value, input_password.value)
+            )
+        result = cursor.fetchone()
+        if result:
+            print("Login bem-sucedido!")
+            page.clean()
+            page.add(ft.Text(value=f"Bem-vindo, {result[1]}!", size=30))
+        else:
+            print("Email ou senha incorretos.")
 
 
 

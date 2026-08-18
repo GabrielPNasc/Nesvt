@@ -32,7 +32,7 @@ def main(page: ft.Page):
 
     page.vertical_alignment = ft.MainAxisAlignment.START
     page.horizontal_alignment = ft.CrossAxisAlignment.START
-    texto = ft.Text(value="Bem-vindo a Nesvt!", size=30 )
+    texto = ft.Text(value="Bem-vindo a Nesvt!", size=30 ,color="white",text_align=ft.TextAlign.CENTER)
     page.bgcolor = "black"
     page.window.width = 390
     page.window.height = 844
@@ -48,6 +48,7 @@ def main(page: ft.Page):
 
     def cadastro_click(e):
         page.clean()
+        page.add(container_cadastro)
         #Criar funcao para inserir banco de dados 
         if not input_user.value or not input_email.value or not input_password.value:
             print("Por favor, preencha todos os campos.")
@@ -81,7 +82,7 @@ def main(page: ft.Page):
             print("Email ou senha incorretos.")
 
 
-
+    
     #container da area de cadastro
     container_cadastro = ft.Container(
         #criacao de um content / column dentro do container 
@@ -108,7 +109,8 @@ def main(page: ft.Page):
                     texto,  
                     input_email,
                     input_password,
-                    ft.Button("Entrar", on_click=login_click)
+                    ft.Button("Entrar", on_click=login_click),
+                    ft.TextButton("Nao possui uma conta? Faça o cadastro",  on_click=cadastro_click)
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,

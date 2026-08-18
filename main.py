@@ -36,6 +36,9 @@ def main(page: ft.Page):
     input_email = ft.TextField(label="Email ")
     input_password = ft.TextField(label="Senha", password=True, can_reveal_password=True)
 
+
+
+
     def cadastro_click(e):
         #Criar funcao para inserir banco de dados 
         cursor.execute(
@@ -43,8 +46,18 @@ def main(page: ft.Page):
                 (input_user.value, input_email.value,input_password.value)
             )
         conexao.commit()
+        page.clean()
+        page.add(container_login)
         print("INSERIDO")
-        
+
+
+
+    def login_click(e):
+        print("aaaaaaaaaa")
+
+
+
+
     #container da area de cadastro
     container_cadastro = ft.Container(
         #criacao de um content / column dentro do container 
@@ -63,6 +76,21 @@ def main(page: ft.Page):
         expand=True
     )
 
+    container_login = ft.Container(
+            #criacao de um content / column dentro do container 
+            content=ft.Column(
+                controls=[
+                    texto,  
+                    input_email,
+                    input_password,
+                    ft.Button("Entrar", on_click=login_click)
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            ),
+            alignment=  ft.Alignment.CENTER ,
+            expand=True
+        )
     
     
 

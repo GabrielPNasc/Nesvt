@@ -50,7 +50,7 @@ def main(page: ft.Page):
 #---------------------------Functions--------------------------------------#
     def roteCadastro(e):
         page.clean()
-        page.add(PageCadastro)
+        page.add(pageRegister)
     def cadastro_click(e):
         #Criar funcao para inserir banco de dados 
         if not input_user.value or not input_email.value or not input_password.value:
@@ -70,7 +70,7 @@ def main(page: ft.Page):
 
     def roteLogin(e):
         page.clean()
-        page.add(PageLogin)
+        page.add(pageLogin)
     def login_click(e):
         #verifica se nao esta vazio o input
         if not input_email.value or not input_password.value:
@@ -100,7 +100,7 @@ def main(page: ft.Page):
 
 #--------------------------Pages--------------------------------------#
     #container da area de cadastro
-    PageCadastro = ft.Container(
+    pageRegister = ft.Container(
         #criacao de um content / column dentro do container 
         content=ft.Column(
             controls=[
@@ -118,7 +118,7 @@ def main(page: ft.Page):
         expand=True
     )
 
-    PageLogin = ft.Container(
+    pageLogin = ft.Container(
             #criacao de um content / column dentro do container 
             content=ft.Column(
                 controls=[
@@ -136,7 +136,7 @@ def main(page: ft.Page):
         )
     
     
-    page.add(PageCadastro)
+    page.add(pageRegister)
 
 
 ft.run(main)

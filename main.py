@@ -47,7 +47,7 @@ def main(page: ft.Page):
     input_password = ft.TextField(label="Senha", password=True, can_reveal_password=True)
 
 
-
+#---------------------------Functions--------------------------------------#
     def roteCadastro(e):
         page.clean()
         page.add(container_cadastro)
@@ -96,9 +96,11 @@ def main(page: ft.Page):
         
         pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
         return re.match(pattern, email) is not None
-    
+
+
+#--------------------------Pages--------------------------------------#
     #container da area de cadastro
-    container_cadastro = ft.Container(
+    PageCadastro = ft.Container(
         #criacao de um content / column dentro do container 
         content=ft.Column(
             controls=[
@@ -116,7 +118,7 @@ def main(page: ft.Page):
         expand=True
     )
 
-    container_login = ft.Container(
+    PageLogin = ft.Container(
             #criacao de um content / column dentro do container 
             content=ft.Column(
                 controls=[
@@ -134,8 +136,7 @@ def main(page: ft.Page):
         )
     
     
-
-    page.add(container_cadastro)
+    page.add(PageCadastro)
 
 
 ft.run(main)

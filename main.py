@@ -2,8 +2,11 @@ import flet as ft
 import mysql.connector 
 from dotenv import load_dotenv
 import os
+import re
+
 #carregando o .env
 load_dotenv() 
+
 #conectando no database
 conexao = mysql.connector.connect(
     host= os.getenv("DB_HOST"),
@@ -45,14 +48,18 @@ def main(page: ft.Page):
 
 
 
-
-    def cadastro_click(e):
+    def roteCadastro(e):
         page.clean()
         page.add(container_cadastro)
+    def cadastro_click(e):
         #Criar funcao para inserir banco de dados 
         if not input_user.value or not input_email.value or not input_password.value:
             print("Por favor, preencha todos os campos.")
             return
+        if not validate_email(input_email.value):
+            print("Por favor, insira um email válido.")
+            return
+
         cursor.execute(
                 "INSERT INTO usuarios (nome,email, senha) VALUES (%s, %s,%s)",
                 (input_user.value, input_email.value,input_password.value)
@@ -61,13 +68,16 @@ def main(page: ft.Page):
         print("INSERIDO")
 
 
-
-    def login_click(e):
+    def roteLogin(e):
         page.clean()
         page.add(container_login)
+    def login_click(e):
         #verifica se nao esta vazio o input
         if not input_email.value or not input_password.value:
             print("Por favor, preencha todos os campos.")
+            return
+        if not validate_email(input_email.value):
+            print("Por favor, insira um email válido.")
             return
         cursor.execute(
                 "SELECT * FROM usuarios WHERE email = %s AND senha = %s",
@@ -81,7 +91,11 @@ def main(page: ft.Page):
         else:
             print("Email ou senha incorretos.")
 
-
+    def validate_email(email):
+        # Função para validar o formato do email
+        
+        pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        return re.match(pattern, email) is not None
     
     #container da area de cadastro
     container_cadastro = ft.Container(
@@ -93,7 +107,7 @@ def main(page: ft.Page):
                 input_email,
                 input_password,
                 ft.Button("Entrar", on_click=cadastro_click),
-                ft.TextButton("Já possui uma conta? Faça login",  on_click=login_click)
+                ft.TextButton("Já possui uma conta? Faça login",  on_click=roteLogin)
             ],
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -110,7 +124,7 @@ def main(page: ft.Page):
                     input_email,
                     input_password,
                     ft.Button("Entrar", on_click=login_click),
-                    ft.TextButton("Nao possui uma conta? Faça o cadastro",  on_click=cadastro_click)
+                    ft.TextButton("Nao possui uma conta? Faça o cadastro",  on_click=roteCadastro)
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
